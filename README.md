@@ -13,7 +13,7 @@ Este projeto tem como objetivo a implementação de um serviço web simples de *
 
 1. **Adicionar tarefas**: O usuário pode enviar uma requisição POST para criar novas tarefas.
 2. **Listar tarefas**: As tarefas existentes podem ser visualizadas através de uma requisição GET.
-3. **Persistência em arquivo**: Todas as tarefas são salvas em um arquivo JSON, garantindo que as informações sejam persistentes.
+3. **Persistência em arquivo**: Todas as tarefas são salvas em um arquivo txt local no pc do usuário, garantindo que as informações sejam persistentes.
 
 ### Escopo do Projeto:
 
@@ -31,13 +31,14 @@ Este projeto segue uma abordagem **incremental**. A primeira etapa foca na repre
 O projeto é estruturado em um único arquivo Haskell, contendo as seguintes partes:
 
 1. **Definição de dados**: A estrutura `Task` é definida com campos para o ID da tarefa, sua descrição e seu status de conclusão.
-2. **Funções de persistência**: Funções para leitura e gravação de dados em um arquivo JSON.
+2. **Funções de persistência**: Funções para leitura e gravação de dados em um arquivo txt.
 3. **Endpoints do serviço web**:
    - `GET /tasks`: Retorna a lista de tarefas.
    - `POST /tasks`: Adiciona uma nova tarefa.
 
 ### Como executar o projeto:
 
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/elc117/perso-2024b-pedrohgabreu
+1. **Faça o download dos arquivos Main.hs e todolist.cabal**
+2. **Execute em qualquer interpretador (cmd ou PowerShell no Windows) utilizando o comando `cabal build` e depois `cabal run`**
+3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` para manipular a lista de tarefas.
+   
