@@ -40,5 +40,5 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
 
 1. **Faça o download dos arquivos Main.hs e todolist.cabal**
 2. **Execute em qualquer interpretador (cmd ou PowerShell no Windows) utilizando o comando `cabal build` e depois `cabal run`**
-3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` para manipular a lista de tarefas.
+3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` para manipular a lista de tarefas.**
    
