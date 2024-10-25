@@ -46,4 +46,21 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
    **Comando para LISTAR as tarefas: `curl http://localhost:3000/tasks`**
 
    **Obs.: Garanta que o Cabal está devidamente atualizado e funcionando.**
+
+ ### Vídeo de execução do projeto: https://youtu.be/Pq4zW_5QdlA
+
+
+ ### Sobre o desenvolvimento: 
+ 
+ A ideia inicial era poder além de registrar e listar, também poder remover itens através de comando, mas devido a muito erros e eu não conseguir achar uma solução a tempo preferi não implementar essa função. 
+ Também enfrentei diversos problemas tentando manipular o arquivo local no formato JSON, mas após trocar para um txt tudo funcionou como planejado.
+ Acredito que esses foram os maiores problemas que enfrentei, de resto tudo ok.
+
+
+ ### Referências/Créditos:
+
+ **https://www.haskell.org/documentation/**
+ **https://github.com/AndreaInfUFSM/elc117-2024b/**
+ **https://www.youtube.com/playlist?list=PLsri1g4fxrjskpZMS10kYJG0xWrYHZ911**
    
+### That's all folks!
