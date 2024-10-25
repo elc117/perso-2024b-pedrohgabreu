@@ -18,4 +18,5 @@ executable todolist
                  , bytestring
                  , text
                  , directory
+                 , http-types
   default-language:  Haskell2010

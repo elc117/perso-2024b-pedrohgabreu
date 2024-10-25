@@ -1,68 +1,55 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 import Web.Scotty
-import Data.Aeson (ToJSON, FromJSON, encode, decode)
 import Control.Monad.IO.Class (liftIO)
-import Data.Text.Lazy (Text)
-import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
-import qualified Data.ByteString.Lazy as B
-import Data.Maybe (fromMaybe)
-import Control.Monad (when)
-import Control.Concurrent.MVar
-import System.IO (hFlush, stdout)
-import System.Directory (doesFileExist)
+import Control.Concurrent.MVar (newMVar, withMVar, MVar)
+import Control.Exception (catch, IOException)
+import Data.Aeson (FromJSON, ToJSON, decode)
 import GHC.Generics (Generic)
-import Control.Exception (finally)
+import System.IO (withFile, IOMode(AppendMode), hPutStr)
 
--- Definindo a estrutura da Task com DeriveGeneric para derivar Generic, ToJSON e FromJSON
-data Task = Task
-  { taskId :: Int
-  , taskDescription :: String
-  , isCompleted :: Bool
-  } deriving (Show, Eq, Generic)
+taskFilePath :: FilePath
+taskFilePath = "tasks.txt"
 
--- Instâncias automáticas para conversão de JSON
-instance ToJSON Task
+type FileLock = MVar ()
+
+loadTasks :: FileLock -> IO [String]
+loadTasks lock = withMVar lock $ \_ -> do
+    contents <- readFile taskFilePath `catch` handleReadError
+    return (lines contents)
+  where
+    handleReadError :: IOException -> IO String
+    handleReadError _ = return []
+
+saveTasks :: FileLock -> [String] -> IO ()
+saveTasks lock tasks = withMVar lock $ \_ -> do
+    withFile taskFilePath WriteMode $ \handle -> do
+        hPutStr handle (unlines tasks)
+
+addTask :: FileLock -> String -> IO ()
+addTask lock task = withMVar lock $ \_ -> do
+    withFile taskFilePath AppendMode $ \handle -> do
+        hPutStr handle (task ++ "\n")
+
+data Task = Task { task :: String } deriving (Show, Generic)
+
 instance FromJSON Task
-
--- Função para salvar tarefas em um arquivo com controle de acesso
-saveTasksToFile :: FilePath -> [Task] -> MVar () -> IO ()
-saveTasksToFile filePath tasks fileLock = do
-  -- Garantindo que só uma thread acesse o arquivo de cada vez
-  takeMVar fileLock `finally` putMVar fileLock ()
-  B.writeFile filePath (encode tasks)
-
--- Função para carregar tarefas de um arquivo com controle de acesso
-loadTasksFromFile :: FilePath -> MVar () -> IO (Maybe [Task])
-loadTasksFromFile filePath fileLock = do
-  -- Garantindo que só uma thread acesse o arquivo de cada vez
-  takeMVar fileLock `finally` putMVar fileLock ()
-  content <- B.readFile filePath
-  return (decode content)
-
--- Função para inicializar o arquivo caso não exista
-initTasksFile :: FilePath -> MVar () -> IO ()
-initTasksFile filePath fileLock = do
-  exists <- doesFileExist filePath
-  when (not exists) $ saveTasksToFile filePath [] fileLock
+instance ToJSON Task
 
 main :: IO ()
 main = do
-  let filePath = "tasks.json"
-  fileLock <- newMVar ()  -- Inicializa o MVar
-  initTasksFile filePath fileLock  -- Inicializar o arquivo se não existir
+    fileLock <- newMVar ()
+    scotty 3000 $ do
+        get "/tasks" $ do
+            tasks <- liftIO $ loadTasks fileLock
+            json tasks
 
-  scotty 3000 $ do
-    -- Endpoint para listar todas as tarefas
-    get "/tasks" $ do
-      tasks <- liftIO (loadTasksFromFile filePath fileLock)
-      json $ fromMaybe ([] :: [Task]) tasks
-
-    -- Endpoint para adicionar uma nova tarefa
-    post "/tasks" $ do
-      newTask <- jsonData :: ActionM Task
-      tasks <- liftIO (loadTasksFromFile filePath fileLock)
-      let updatedTasks = fromMaybe [] tasks ++ [newTask]
-      liftIO (saveTasksToFile filePath updatedTasks fileLock)
-      json updatedTasks
+        post "/tasks" $ do
+            body <- body
+            let maybeTask = decode body :: Maybe Task
+            case maybeTask of
+                Just (Task newTask) -> do
+                    liftIO $ addTask fileLock newTask
+                    text "Task added successfully!"
+                Nothing -> text "Invalid task format!"
