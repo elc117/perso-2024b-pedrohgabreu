@@ -59,8 +59,8 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
 
  ### Referências/Créditos:
 
- **https://www.haskell.org/documentation/**
- **https://github.com/AndreaInfUFSM/elc117-2024b/**
- **https://www.youtube.com/playlist?list=PLsri1g4fxrjskpZMS10kYJG0xWrYHZ911**
+ - **https://www.haskell.org/documentation/** 
+ - **https://github.com/AndreaInfUFSM/elc117-2024b/**
+ - **https://www.youtube.com/playlist?list=PLsri1g4fxrjskpZMS10kYJG0xWrYHZ911**
    
 ### That's all folks!
