@@ -42,8 +42,8 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
 2. **Execute em qualquer interpretador (cmd ou PowerShell no Windows) utilizando o comando `cabal build` e depois `cabal run`**
 3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` (em outro interpretador) para manipular a lista de tarefas.**
 
-   **Exemplo de comando para ADICIONAR uma tarefa: `curl -X POST -H "Content-Type: application/json" -d "{\"task\":\"comprar comida\"}" http://localhost:3000/tasks`**
-   **Comando para LISTAR as tarefas: `curl http://localhost:3000/tasks`**
+  - **Exemplo de comando para ADICIONAR uma tarefa: `curl -X POST -H "Content-Type: application/json" -d "{\"task\":\"comprar comida\"}" http://localhost:3000/tasks`**
+  - **Comando para LISTAR as tarefas: `curl http://localhost:3000/tasks`**
 
    **Obs.: Garanta que o Cabal está devidamente atualizado e funcionando.**
 
