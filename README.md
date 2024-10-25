@@ -7,7 +7,7 @@
 
 ## Tema / Objetivo
 
-Este projeto tem como objetivo a implementação de um serviço web simples de **gerenciamento de listas de tarefas** utilizando a linguagem **Haskell** e o microframework **Scotty**. O serviço permitirá que os usuários possam **criar**, **listar**, **atualizar** e **remover** tarefas, com persistência dos dados em um arquivo local, garantindo que as informações sejam salvas mesmo após o fechamento do servidor.
+Este projeto tem como objetivo a implementação de um serviço web simples de **anotação de tarefas em uma lista** utilizando a linguagem **Haskell** e o microframework **Scotty**. O serviço permitirá que os usuários possam **criar**, **listar** e **exibir** as tarefas listadas, com persistência dos dados em um arquivo local, garantindo que as informações sejam salvas mesmo após o fechamento do servidor.
 
 ### Funcionalidades:
 
@@ -41,6 +41,9 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
 1. **Faça o download dos arquivos Main.hs e todolist.cabal**
 2. **Execute em qualquer interpretador (cmd ou PowerShell no Windows) utilizando o comando `cabal build` e depois `cabal run`**
 3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` para manipular a lista de tarefas.**
+
+   **Exemplo de comando para ADICIONAR uma tarefa: `curl -X POST -H "Content-Type: application/json" -d "{\"task\":\"comprar comida\"}" http://localhost:3000/tasks`**
+   **Comando para LISTAR as tarefas: `curl http://localhost:3000/tasks`**
 
    **Obs.: Garanta que o Cabal está devidamente atualizado e funcionando.**
    
