@@ -30,7 +30,7 @@ Este projeto segue uma abordagem **incremental**. A primeira etapa foca na repre
 
 O projeto é estruturado em um único arquivo Haskell, contendo as seguintes partes:
 
-1. **Definição de dados**: A estrutura `Task` é definida com campos para o ID da tarefa, sua descrição e seu status de conclusão.
+1. **Definição de dados**: A estrutura `Task` é definida como uma string (ex.: "Lavar Roupas").
 2. **Funções de persistência**: Funções para leitura e gravação de dados em um arquivo txt.
 3. **Endpoints do serviço web**:
    - `GET /tasks`: Retorna a lista de tarefas.
@@ -40,7 +40,7 @@ O projeto é estruturado em um único arquivo Haskell, contendo as seguintes par
 
 1. **Faça o download dos arquivos Main.hs e todolist.cabal**
 2. **Execute em qualquer interpretador (cmd ou PowerShell no Windows) utilizando o comando `cabal build` e depois `cabal run`**
-3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` para manipular a lista de tarefas.**
+3. **Assim que o servidor local estiver aberto, utilize os comandos `GET` ou `POST` (em outro interpretador) para manipular a lista de tarefas.**
 
    **Exemplo de comando para ADICIONAR uma tarefa: `curl -X POST -H "Content-Type: application/json" -d "{\"task\":\"comprar comida\"}" http://localhost:3000/tasks`**
    **Comando para LISTAR as tarefas: `curl http://localhost:3000/tasks`**
