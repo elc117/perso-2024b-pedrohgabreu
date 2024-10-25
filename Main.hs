@@ -7,7 +7,7 @@ import Control.Concurrent.MVar (newMVar, withMVar, MVar)
 import Control.Exception (catch, IOException)
 import Data.Aeson (FromJSON, ToJSON, decode)
 import GHC.Generics (Generic)
-import System.IO (withFile, IOMode(AppendMode), hPutStr)
+import System.IO (withFile, IOMode(AppendMode, WriteMode), hPutStr)
 
 taskFilePath :: FilePath
 taskFilePath = "tasks.txt"
@@ -16,16 +16,11 @@ type FileLock = MVar ()
 
 loadTasks :: FileLock -> IO [String]
 loadTasks lock = withMVar lock $ \_ -> do
-    contents <- readFile taskFilePath `catch` handleReadError
+    contents <- Control.Exception.catch (readFile taskFilePath) handleReadError
     return (lines contents)
   where
     handleReadError :: IOException -> IO String
     handleReadError _ = return []
-
-saveTasks :: FileLock -> [String] -> IO ()
-saveTasks lock tasks = withMVar lock $ \_ -> do
-    withFile taskFilePath WriteMode $ \handle -> do
-        hPutStr handle (unlines tasks)
 
 addTask :: FileLock -> String -> IO ()
 addTask lock task = withMVar lock $ \_ -> do
